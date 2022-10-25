@@ -6,18 +6,18 @@ const NewBook = (props) => {
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
-
+  
   if (!props.show) {
     return null
   }
 
   const submit = async (event) => {
     event.preventDefault()
-
+    props.createBook({ variables: {title, author, published, genres}})
     console.log('add book...')
-
+    
     setTitle('')
-    setPublished('')
+    setPublished(0)
     setAuthor('')
     setGenres([])
     setGenre('')
@@ -50,6 +50,7 @@ const NewBook = (props) => {
           <input
             type="number"
             value={published}
+            placeholder="enter a year"
             onChange={({ target }) => setPublished(target.value)}
           />
         </div>
