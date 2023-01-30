@@ -3,29 +3,35 @@ import { useState } from 'react'
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
-  const [published, setPublished] = useState('')
+  const [p, setP] = useState('');
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
-  
+
   if (!props.show) {
     return null
   }
 
   const submit = async (event) => {
     event.preventDefault()
+     
+    let published = Number.parseInt(p) || 0; 
     props.createBook({ variables: {title, author, published, genres}})
     console.log('add book...')
     
     setTitle('')
-    setPublished(0)
+    setP('')
     setAuthor('')
     setGenres([])
     setGenre('')
   }
 
   const addGenre = () => {
-    setGenres(genres.concat(genre))
+    setGenres(genres => genres.concat(genre))
     setGenre('')
+  }
+
+  const seeState = () => {
+    console.log(p)
   }
 
   return (
@@ -49,9 +55,9 @@ const NewBook = (props) => {
           published
           <input
             type="number"
-            value={published}
+            value={p}
             placeholder="enter a year"
-            onChange={({ target }) => setPublished(target.value)}
+            onChange={({ target }) => setP(target.value)}
           />
         </div>
         <div>
@@ -64,6 +70,7 @@ const NewBook = (props) => {
           </button>
         </div>
         <div>genres: {genres.join(' ')}</div>
+        <button onClick={seeState}>show state</button>
         <button type="submit">create book</button>
       </form>
     </div>
